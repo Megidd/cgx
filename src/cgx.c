@@ -35,6 +35,12 @@ int OLD_BIAS_DEF=0;
 /* generate sets from pressure-loads */
 int MAKE_SETS_DEF=1;
 
+#if defined(WIN32)
+#include "platformWin.c"
+#else
+#include "platformUnix.c"
+#endif
+
 
 void generalinfo()
 {
