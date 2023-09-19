@@ -20,7 +20,7 @@
 /*     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.         */
 /* --------------------------------------------------------------------  */
 
-#define     VERSION         "2.21"
+#define     VERSION         "2.22"
 
 /* function prototypes for the program "CalculiX GraphiX (cgx)" */
 
@@ -90,19 +90,19 @@
     #define     HELPFILE        {"/yaprod/struct/app/cgx/prod/doc/cgx.html",\
                              "/yaprod/struct/app/ccx/prod/doc/ccx.html"}
   #else
-    #define     HELPFILE        {"/yaprod/cae/application/CalculiX/doc/cgx_2.21/cgx.html",\
+    #define     HELPFILE        {"/yaprod/cae/application/CalculiX/doc/cgx_2.22/cgx.html",\
                              "/yaprod/cae/application/CalculiX/doc/ccx_2.21/ccx.html"}
   #endif
   /* default tet mesher, 0:Netgen ng_vol, 1:tetgen */
   #define     TETMESHER  0
 #elif defined AFLIB
-  #define     HELPFILE        {"/usr/local/CalculiX/cgx_2.21/doc/cgx/cgx.html",\
+  #define     HELPFILE        {"/usr/local/CalculiX/cgx_2.22/doc/cgx/cgx.html",\
     "/usr/local/CalculiX/ccx_2.21/doc/ccx/ccx.html",\
     "/usr/local/CalculiX/cgx_2.16/doc/aflib/aflib.pdf"}
   /* default tet mesher, 0:Netgen ng_vol, 1:tetgen */
   #define     TETMESHER  1
 #else
-  #define     HELPFILE        {"/usr/local/CalculiX/cgx_2.21/doc/cgx/cgx.html",\
+  #define     HELPFILE        {"/usr/local/CalculiX/cgx_2.22/doc/cgx/cgx.html",\
     "/usr/local/CalculiX/ccx_2.21/doc/ccx/ccx.html"}
   /* default tet mesher, 0:Netgen ng_vol, 1:tetgen */
   #define     TETMESHER  1

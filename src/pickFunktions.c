@@ -4666,7 +4666,7 @@ int createText(int nodenr, int x, int y )
   {
     if(ntext[i].node_nr==nodenr)
     {
-      if(ntext[i].text) free(ntext[i].text);
+      //if(ntext[i].text) free(ntext[i].text);
       t=i; break;
     }
   }

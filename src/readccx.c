@@ -5725,7 +5725,7 @@ int getInitialConditions(char *rec_str)
           for(n=0; n<20; n++) for(v=0; v<6; v++) enodval[n][v]=0.;
 
           /* he8 */
-          if((e_enqirex[elresult[e].nr].type==1)&&(e_enqirex[elresult[e].nr].attr==1))
+          if((e_enqirex[elresult[e].nr].type==1)&&(e_enqirex[elresult[e].nr].attr>=1))
 	  { nnr=8;  for(n=0; n<8; n++) for(v=0; v<6; v++) enodval[n][v]+=elresult[e].dat[g][v]; }
           else if((e_enqirex[elresult[e].nr].type==1)&&(e_enqirex[elresult[e].nr].attr==0))
           { nnr=8;  for(n=0; n<8; n++) for(g=0; g<8; g++) for(v=0; v<6; v++) enodval[n][v]+=a8[g*8+n]*elresult[e].dat[g][v]; }

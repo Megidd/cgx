@@ -6,6 +6,14 @@ cgx Change Log
 
 NOTE:  This document is potentially incomplete.
 
+cgx 2.21 -> cgx 2.22
+--------------------
+  o  Changed or extended commands:
+     - test   The existence of a file or the existence of a certain string
+              in a given file is checked.
+     - valu   The math function log and log10 is available
+
+
 cgx 2.20 -> cgx 2.21
 --------------------
   o  Changed or extended commands:

@@ -2372,11 +2372,12 @@ in your configuration file ('.cgx' in your home directory).
 \subsection{\label{test}test}
 \begin{verbatim}
    'test' ['d'|'v'|'n'|'e'|'p'|'l'|'c'|'s'|'b'|->
-           'S'|'L'|'se'|'sh' <entity-name>]
-          ['i' <set1> <set2>]
+           'S'|'L'|'se'|'sh' <entity-name>] | ->
+          ['file' <file> [<">string<">]]  | ->
+          ['i' <set1> <set2>] | ->
           ['o' <set>|<node>]
 \end{verbatim}
-A boolean opperation. Usually tests the existence of a given entity (watch the '\verb_\_' which prevents the value beeing replaced by its content!):\\\\test v \verb_\_value\\\\And it checks if at least one node included in set1 is inside the elements included in set2:\\\\test i nodeset elemset\\\\Or it tests the observability 'o' of a certain node under the given orientation of the model. The node can be given as a member of a set or directly by its node-nr. The command returns TRUE or FALSE and writes it to the ''\htmlref{stack}{stack}''.
+A boolean opperation. Usually tests the existence of a given entity (watch the '\verb_\_' which prevents the value beeing replaced by its content!):\\\\test v \verb_\_value\\\\And it checks if at least one node included in set1 is inside the elements included in set2:\\\\test i nodeset elemset\\\\Or it tests the observability 'o' of a certain node under the given orientation of the model. The node can be given as a member of a set or directly by its node-nr. The existence of a file or the existence of a certain string in a given file can be checked:\\\\test filename.txt ``HELLO''\\\\The command returns TRUE or FALSE and writes it to the ''\htmlref{stack}{stack}''.
 
 \subsection{\label{thrs}thrs}
 \begin{verbatim}
@@ -2484,8 +2485,8 @@ Please study the example ''\htmlref{Data storage in a user dataset}{Data storage
 \begin{verbatim}
    'valu' <[!]name> [['push' [<splitkey>]]|['pop' [nr]]] | ->
          [<value> ['?' [<\"string\">]] | ->
-         ['&'|'*'|'/'|'+'|'-'|'abs'|'max'|'min'|'pow'|->
-          'sqr'|'sin'|'cos'|'tan'|'asin'|'acos'|'atan'| ->
+         ['&'|'*'|'/'|'+'|'-'|'abs'|'max'|'min'|'pow'|'log'|->
+          'log10'|'sqr'|'sin'|'cos'|'tan'|'asin'|'acos'|'atan'| ->
           'int'|'float'|'exp' [name|<const> name|<const>]] ]
 \end{verbatim}
 WARNING: With that command the meaning of a command can be changed and unintended effects are possible. For example if the character 'l' is used as a value it is not longer possible to use the 'plot' command to display lines without masking the 'l'. So it is a good idea to use only names using several characters and avoid the names of existing commands.

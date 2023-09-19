@@ -16212,6 +16212,8 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
   char dataset_text[MAX_LINE_LENGTH], analysis_name[MAX_LINE_LENGTH];
   static char *ptr_string=NULL;
 
+  FILE *handle=NULL;
+
   for(j=0;j<strlen(type); j++) type[j]=toupper(type[j]);
  whileLoop:;
   for(j=0;j<MAX_PARAM_PER_RECORD; j++) dat[j][0]=0;
@@ -18710,8 +18712,57 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
   }
   else if (compareStrings(type, "TEST")>0)
   {
-    length=sscanf( string, "%*s %s %s", type, name);
+    comm[0]=NULL;
+    length=sscanf( string, "%*s %s %s %s", type, name, comm);
+    //printf(" length:%d  %s %s %s\n", length, type, name, comm);
+    if(length>2)
+    {
+      /* search a text between "" and erase him from the string */
+      i=j=0;
+      do
+      {
+        if(string[i]=='"')
+        {
+          string[i++]=' ';
+          while((string[i]!='"')&&(string[i]!=0))
+          {
+            comm[j++]=string[i];
+            string[i++]=' ';
+          }
+          string[i++]=' ';
+          comm[j++]='\0';
+        }
+      }while(string[i++]!='\0');
+      printf("%s \n",comm);
+    }
 
+    if ((type[0]=='f')&&(type[1]=='i')) // check availability of a certain file
+    {
+      handle = fopen ( name, "r");
+      if (handle==NULL)
+      {
+	strcpy(parameter[0],"FALSE");
+      }
+      else
+      {
+	strcpy(parameter[0],"FALSE");
+	if(length>2) // search a certain line in the file
+	{
+          while (length > -1)
+          {
+            length = frecord( handle, string);
+            if( string[length]== (char)EOF)  break;
+            if(strstr(string, comm) !=NULL) strcpy(parameter[0],"TRUE");
+	  }
+	}
+	else strcpy(parameter[0],"TRUE");
+        fclose(handle);
+      }
+      printf(" %s\n",parameter[0]);
+      write2stack(1, parameter);
+      
+      goto checkForError;
+    }
     if ((type[0]=='i')&&(type[1]=='\0'))
     {
       length=sscanf( string, "%*s%*s%*s%s", dat[0]);

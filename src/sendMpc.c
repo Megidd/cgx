@@ -299,7 +299,7 @@ void sendMpc( char *setname, char *format, char *rotation , double *vector)
   
       fprintf(handle_boundary, "** INCLUDE THE FOLLOWING LINES IN A STEP:\n");
       fprintf(handle_boundary, "**  Pretwist of %s degree\n*BOUNDARY\n", rotation);
-      fprintf(handle_boundary, "%d, 1, 1, %lf\n", anz->nnext+ntwist, atof(rotation)*PI/180.);
+      fprintf(handle_boundary, "Ntwist, 1, 1, %lf\n", atof(rotation)*PI/180.);
       fclose(handle_boundary);
 
       // inc the nr of twist nodes (deactivated to give the user control about the reference node)

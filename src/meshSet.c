@@ -214,7 +214,7 @@ int straightNodes( int j, int k, int div, double *pn )
   /* printf("j:%d k:%d curj:%d %d\n",j,k,curj,curk); */
   if(( j!=curj)||( k<=curk)||(div!=curdiv))
   {
-    if( (dl = (double *)realloc( (double *)dl, div*sizeof(double))) == NULL )
+    if( (dl = (double *)realloc( (double *)dl, (div+1)*sizeof(double))) == NULL )
     { printf(" ERROR: realloc failure in straightNodes()\n\n"); return(-1); }
 
     curj=j;
@@ -231,14 +231,14 @@ int straightNodes( int j, int k, int div, double *pn )
 
     /* berechnung der elementgroessen */
     dl[0]=l=sum_l=1.;
-    for(i=1; i<div; i++)
+    for(i=1; i<=div; i++)
     {
       l= l*line[j].bias; /* aktuelle relative Elementgroesse (1. Element ist 1 lang) */
       sum_l+=l;          /* Summe aller relativen Elementgroessen */ 
       dl[i]= sum_l;
       /* printf("i:%d l:%lf suml:%lf\n", i, l, sum_l); */
     }
-    for(i=0; i<div; i++)
+    for(i=0; i<=div; i++)
     {
       dl[i]= dl[i]/sum_l* lp1p2; /* Summe aller Elementgroessen */
       /* printf("i:%d dl:%lf\n", i,dl[i]);  */
@@ -284,7 +284,7 @@ int arcNodes( int j, int k, int div, double *pn )
   */
   if(( j!=curj)||( k<=curk)||( div!=curdiv))
   {
-    if( (dalfa = (double *)realloc( (double *)dalfa, div*sizeof(double))) == NULL )
+    if( (dalfa = (double *)realloc( (double *)dalfa, (div+1)*sizeof(double))) == NULL )
     { printf(" ERROR: realloc failure in arcNodes()\n\n"); return(-1); }
 
     curj=j;
@@ -319,14 +319,14 @@ int arcNodes( int j, int k, int div, double *pn )
 
     /* berechnung der elementgroessen */
     dalfa[0]=l=sum_l=1.;
-    for(i=1; i<div; i++)
+    for(i=1; i<=div; i++)
     {
       l= l*line[j].bias; /* aktuelle relative Elementgroesse (1. Element ist 1 lang) */
       sum_l+=l;          /* Summe aller relativen Elementgroessen */ 
       dalfa[i]= sum_l;
       // printf("i:%d l:%lf suml:%lf\n", i, l, sum_l); 
     }
-    for(i=0; i<div; i++)
+    for(i=0; i<=div; i++)
     {
       dalfa[i]= dalfa[i]/sum_l * alfa; /* Summe aller Elementgroessen */
       // printf("i:%d dalfa:%lf\n", i,dalfa[i]); 
@@ -383,7 +383,7 @@ int splineNodes( int j, int k, int div, double *pn )
     /* realloc the arrays for interpol */
     if( (l = (double *)realloc( (double *)l, curn*sizeof(double))) == NULL )
     { printf(" ERROR: realloc failure in splineNodes() l\n\n"); return(-1); }
-    if( (dl = (double *)realloc( (double *)dl, div*sizeof(double))) == NULL )
+    if( (dl = (double *)realloc( (double *)dl, (div+1)*sizeof(double))) == NULL )
     { printf(" ERROR: realloc failure in splineNodes() dl\n\n"); return(-1); }
     if( (x = (double *)realloc( (double *)x, curn*sizeof(double))) == NULL )
     { printf(" ERROR: realloc failure in splineNodes() x\n\n"); return(-1); }
@@ -461,7 +461,7 @@ int splineNodes( int j, int k, int div, double *pn )
 
     /* berechnung der elementgroessen */
     dl[0]=le=sum_l=1.;
-    for(i=1; i<div; i++)
+    for(i=1; i<=div; i++)
     {
       le= le*line[j].bias; /* aktuelle relative Elementgroesse (1. Element ist 1 lang) */
       sum_l+=le;          /* Summe aller relativen Elementgroessen */ 
@@ -471,7 +471,7 @@ int splineNodes( int j, int k, int div, double *pn )
 
     /* scalierung der elemente auf die linienlaenge */
     /* Summe aller Elementgroessen zwischen 1. u i-linienpkt */
-    for(i=0; i<div; i++)
+    for(i=0; i<=div; i++)
     {
       dl[i]= dl1 + dl[i]/sum_l* lsegm; 
       /* printf("i:%d dl:%lf\n", i,dl[i]); */
@@ -494,7 +494,7 @@ int splineNodes( int j, int k, int div, double *pn )
   {
     if(printFlag) printf("WARNING: intpol3 could not create the spline coefficients, intpol2 used\n");
     mode=1;
-    pn[0] = intpol2( l, y, n, dl[k], &mode );
+    pn[1] = intpol2( l, y, n, dl[k], &mode );
   }
   mode=1;
   pn[2] = intpol3( l, z, n, dl[k], &mode, 0., iopt );
@@ -502,7 +502,7 @@ int splineNodes( int j, int k, int div, double *pn )
   {
     if(printFlag) printf("WARNING: intpol3 could not create the spline coefficients, intpol2 used\n");
     mode=1;
-    pn[0] = intpol2( l, z, n, dl[k], &mode );
+    pn[2] = intpol2( l, z, n, dl[k], &mode );
   }
   /*  
   printf ("dl:%lf node[%d] lmax:%lf div:%d pos:%lf %lf %lf\n", dl[k], k, lmax, div, pn[0],pn[1],pn[2]);

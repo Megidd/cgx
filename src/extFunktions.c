@@ -294,7 +294,7 @@ void help( void )
   printf ("   'surf' <name|!> [<set>]|[[<shape>|<nurs>|'blend'] <line|lcmb> <line|lcmb> <line|lcmb> [<line|lcmb>] [<line|lcmb>]] \n");
   printf ("   'swep' <set> <new_set> ['scal' <fx> [<fy> <fz>] [<pnt>|<div>]]|['tra' <x> <y> <z> [<div>]]|['rad' [<p1> <p2> <value> [<div>]]|['x'|'y'|'z' <value> [<div>]]|[<p1> 'x'|'y'|'z' <value> [<div>]]|['p'<PNT> <dr> [<div>]]]|['rot' [<p1> <p2> <value> [<div>]]|['x'|'y'|'z' <value> [<div>]]|[<p1> 'x'|'y'|'z' <value> [<div>]]]|['mir' [<p1> <p2> [<div>]]|['x'|'y'|'z' [<div>]]|[<p1> 'x'|'y'|'z' [<div>]]]|['nor' <value> [<div>]] ['a'[rot:&|'n']]\n");
   printf ("   'sys' <shell-command parameters> \n");
-  printf ("   'test' ['i' <set> <set>| ['o' <set>|'nodenr'] | ['d'|'v'|'n'|'e'|'p'|'l'|'c'|'s'|'b'|'S'|'L'|'se'|'sh' <name>]\n");
+  printf ("   'test' ['file' <file> [<\">string<\">]] | ['i' <set> <set>] | ['o' <set>|'nodenr'] | ['d'|'v'|'n'|'e'|'p'|'l'|'c'|'s'|'b'|'S'|'L'|'se'|'sh' <name>]\n");
   printf ("   'thrs' <value> 'h'|'l'|'o' ['t']\n");
   printf ("   'tra' 'f'|'u'|'d'|'l'|'r' <relative-distance> \n");
   printf ("   'trfm' 'rec'|'cyl' ['x'|'y'|'z'] [<first-Dataset-Nr> [<last-Dataset-Nr>]] (Datasets of a common type)\n");
@@ -303,7 +303,7 @@ void help( void )
   printf ("   'ucut' \n");
   printf ("   'ulin' <string>\n");
   printf ("   'val' (same as 'valu' but all un-masked <name> are substituted by its value)\n");   
-  printf ("   'valu' <[!]name> [['push' [<splitkey>]]|['pop' [nr]]] | [<value> ['?' [<\"string\">]] |  ['&'|'*'|'/'|'+'|'-'|'abs'|'len'|'max'|'min'|'pow'|'sqr'|'sin'|'cos'|'tan'|'asin'|'acos'|'atan'|'int'|'float'|'exp' [name|<const> name|<const>]] ]\n");
+  printf ("   'valu' <[!]name> [['push' [<splitkey>]]|['pop' [nr]]] | [<value> ['?' [<\"string\">]] |  ['&'|'*'|'/'|'+'|'-'|'abs'|'len'|'max'|'min'|'pow'|'sqr'|'log'|'log10'|'sin'|'cos'|'tan'|'asin'|'acos'|'atan'|'int'|'float'|'exp' [name|<const> name|<const>]] ]\n");
   printf ("   'view' ['cl' ['off']]|'fill'|'line'|['point' <value>]|['edge' ['off'|<value>]]|['elem' ['off']]|'surf'|'volu'|'front'|'back'|['vec' ['off']]|['disp' ['off'|'keep']]|['bg' ['w'|'k']]|['sh' ['off']]|['ill' ['off']]|['rul' ['off'|<string>]]\n");
   printf ("   'volu' <set>\n");
   printf ("   'while' <value> 'eq'|'ne'||'=='|'!='|'<'|'>' <value>\n");
@@ -5612,7 +5612,7 @@ int enquireEntities(char *string)
     tol=atof(dat[4]);
     if(args==7) { value=atof(dat[6]); valFlag=1; }
     if(args>=6) mode=dat[5][0];
-    else mode='h';
+    else mode='i';
   }
   /* based on coordinates */
   else
@@ -5722,7 +5722,7 @@ int enquireEntities(char *string)
       else
       {
         printf("parameter not recognized:%s\n", dat[2]);
-        return(0);
+        break;
       }
       rsort[i].i=n;
     }
@@ -5870,15 +5870,15 @@ int enquireEntities(char *string)
       {
         if(set[setPos].anz_n)
         {
-          dx=node[set[setPos].node[0]].nx-node[n].nx;
-          dy=node[set[setPos].node[0]].ny-node[n].ny;
-          dz=node[set[setPos].node[0]].nz-node[n].nz;
+          dx=node[set[setPos].node[0]].nx-point[n].px;
+          dy=node[set[setPos].node[0]].ny-point[n].py;
+          dz=node[set[setPos].node[0]].nz-point[n].pz;
 	}
         else if(set[setPos].anz_p)
         {
-          dx=point[set[setPos].pnt[0]].px-node[n].nx;
-          dy=point[set[setPos].pnt[0]].py-node[n].ny;
-          dz=point[set[setPos].pnt[0]].pz-node[n].nz;
+          dx=point[set[setPos].pnt[0]].px-point[n].px;
+          dy=point[set[setPos].pnt[0]].py-point[n].py;
+          dz=point[set[setPos].pnt[0]].pz-point[n].pz;
 	}
         else return(0);
         rsort[i].r=dx*dx+dy*dy+dz*dz;
@@ -5920,7 +5920,7 @@ int enquireEntities(char *string)
       else
       {
         printf("parameter not recognized:%s\n", dat[2]);
-        return(0);
+        break;
       }
       rsort[i].i=n;
     }
@@ -5960,7 +5960,7 @@ int enquireEntities(char *string)
 
   if(set[setNr].anz_l)
   {
-    /* calculate dr of all points and sort the indexes according to distance**2 (rsort[i].r) */ 
+    // calculate dr of all points and sort the indexes according to distance**2 (rsort[i].r)
     if ( (rsort = (Rsort *)malloc( (set[setNr].anz_l+1)*ddiv  * sizeof(Rsort))) == NULL )
       printf("ERROR: realloc failed: Rsort\n\n" ); 
 
@@ -5970,7 +5970,24 @@ int enquireEntities(char *string)
       l=set[setNr].line[i];
       for (n=0; n<line[l].nip; n+=3)
       {
-        if(dat[2][0]=='r')
+        if(dat[2][0]=='s')
+        {
+          if(set[setPos].anz_n)
+          {
+            dx=node[set[setPos].node[0]].nx-((line[l].ip[n]* scale->w)+scale->x);
+            dy=node[set[setPos].node[0]].ny-((line[l].ip[n+1]* scale->w)+scale->y);
+            dz=node[set[setPos].node[0]].nz-((line[l].ip[n+2]* scale->w)+scale->z);
+  	  }
+          else if(set[setPos].anz_p)
+          {
+            dx=point[set[setPos].pnt[0]].px-((line[l].ip[n]* scale->w)+scale->x);  
+            dy=point[set[setPos].pnt[0]].py-((line[l].ip[n+1]* scale->w)+scale->y);
+            dz=point[set[setPos].pnt[0]].pz-((line[l].ip[n+2]* scale->w)+scale->z);
+  	  }
+          else return(0);
+          rsort[j].r=dx*dx+dy*dy+dz*dz;
+        }
+        else if(dat[2][0]=='r')
         {
           if(ico[0]) dx=vco[0]-((line[l].ip[n]* scale->w)+scale->x); else dx=0.;
           if(ico[1]) dy=vco[1]-((line[l].ip[n+1]* scale->w)+scale->y); else dy=0.;
@@ -6012,7 +6029,7 @@ int enquireEntities(char *string)
         else
         {
           printf("parameter not recognized:%s\n", dat[2]);
-          return(0);
+          break;
         }
         rsort[j].i=l;
 
@@ -6061,7 +6078,7 @@ int enquireEntities(char *string)
 
   if(set[setNr].anz_s)
   {
-    /* calculate dr of all points and sort the indexes according to distance**2 (rsort[i].r) */ 
+    // calculate dr of all points and sort the indexes according to distance**2 (rsort[i].r)
     if ( (rsort = (Rsort *)malloc( (set[setNr].anz_s+1)*ddiv*ddiv  * sizeof(Rsort))) == NULL )
       printf("ERROR: realloc failed: Rsort\n\n" ); 
 
@@ -6072,13 +6089,30 @@ int enquireEntities(char *string)
       n=0;
       while((surf[l].npgn-n))
       {
-        n++; /* jump over the polygon token (ie.GL_POLYGON_TOKEN) */
+        n++; // jump over the polygon token (ie.GL_POLYGON_TOKEN) 
         m=surf[l].pgn[n++];
-        n+=3; /* jump over the normal-vector */
+        n+=3; // jump over the normal-vector
         for(k=0; k<m; k++)
         {
           //printf("%d %s %lf %lf %lf\n", k,surf[l].name, surf[l].pgn[n],surf[l].pgn[n+1],surf[l].pgn[n+2]); 
-          if(dat[2][0]=='r')
+          if(dat[2][0]=='s')
+          {
+            if(set[setPos].anz_n)
+            {
+              dx=node[set[setPos].node[0]].nx-((surf[l].pgn[n]* scale->w)+scale->x);
+              dy=node[set[setPos].node[0]].ny-((surf[l].pgn[n+1]* scale->w)+scale->y);
+              dz=node[set[setPos].node[0]].nz-((surf[l].pgn[n+2]* scale->w)+scale->z);
+    	    }
+            else if(set[setPos].anz_p)
+            {
+              dx=point[set[setPos].pnt[0]].px-((surf[l].pgn[n]* scale->w)+scale->x);  
+              dy=point[set[setPos].pnt[0]].py-((surf[l].pgn[n+1]* scale->w)+scale->y);
+              dz=point[set[setPos].pnt[0]].pz-((surf[l].pgn[n+2]* scale->w)+scale->z);
+    	    }
+            else return(0);
+            rsort[j].r=dx*dx+dy*dy+dz*dz;
+          }
+          else if(dat[2][0]=='r')
           {
             if(ico[0]) dx=vco[0]-((surf[l].pgn[n]* scale->w)+scale->x); else dx=0.;
             if(ico[1]) dy=vco[1]-((surf[l].pgn[n+1]* scale->w)+scale->y); else dy=0.;
@@ -6120,7 +6154,7 @@ int enquireEntities(char *string)
           else
           {
             printf("parameter not recognized:%s\n", dat[2]);
-            return(0);
+            break;
           }
           rsort[j].i=l;
   

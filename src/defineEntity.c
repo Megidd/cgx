@@ -941,7 +941,7 @@ int pre_value( char *record)
       else if(compareStrings(string, "-")>0) sprintf(string,"%e",val1-val2);
       else if(compareStrings(string, "abs")>0) sprintf(string,"%e",abs(val1));
       else if(compareStrings(string, "int")>0) sprintf(string,"%d",(int)val1);
-      else if(compareStrings(string, "float")>0) sprintf(string,"%f",(float)val1);
+      else if(compareStrings(string, "float")>0) sprintf(string,"%lf",(double)val1);
       else if(compareStrings(string, "exp")>0) sprintf(string,"%e",(double)val1);
       else if(compareStrings(string, "max")>0) sprintf(string,"%e",dmax(val1,val2));
       else if(compareStrings(string, "min")>0) sprintf(string,"%e",dmin(val1,val2));
@@ -953,6 +953,9 @@ int pre_value( char *record)
       else if(compareStrings(string, "asin")>0) sprintf(string,"%e",asin(val1)*180./PI);
       else if(compareStrings(string, "acos")>0) sprintf(string,"%e",acos(val1)*180./PI);
       else if(compareStrings(string, "atan")>0) sprintf(string,"%e",atan(val1)*180./PI);
+      else if(compareStrings(string, "log")>0) sprintf(string,"%e",log(val1));
+      else if(compareStrings(string, "log10")>0) sprintf(string,"%e",log10(val1));
+      else { printf(" ERROR: Operator %s unknown\n", string); }
       /* get rid of trailing '0' */
       for(i=strlen(string); i>0; i--) if(string[i]=='0') string[i]=0; else break;
     }
