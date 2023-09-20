@@ -14265,7 +14265,11 @@ void pre_movie(char *string)
         else sprintf( buffer, "convert -loop %d -delay %d movie.gif %s movie.gif %s", loops, delay, name,DEV_NULL2);
         system (buffer);
       }
+#ifdef WIN32
+      sprintf( buffer, "del \"__*.gif\" %s", " 2> NUL");
+#else
       sprintf( buffer, "rm __*.gif %s", DEV_NULL2);
+#endif
       system (buffer);
       printf("\nready\n");
       printf("\nyou might use the program 'realplay' or 'firefox' to play the movie.gif file\n\n");
