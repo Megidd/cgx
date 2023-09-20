@@ -1617,7 +1617,7 @@ int readstep( char *datin, int flag )
     fclose(handlefbl);
 
 #ifdef WIN32
-    sprintf(buffer,"type cgx_tmp.fbl >> cgx_tmp2.fbl");
+    sprintf(buffer,"type \"cgx_tmp.fbl\" >> \"cgx_tmp2.fbl\"");
 #else
     sprintf(buffer,"cat cgx_tmp.fbl >> cgx_tmp2.fbl");
 #endif
