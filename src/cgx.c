@@ -1015,7 +1015,11 @@ void createHardcopy( int selection, char *filePtr )
         animList=0;
         movieFrames=0;
         movieFlag=0;
+#ifdef WIN32
+        sprintf( buffer, "del /f  \"hcpy_0.tga\" %s", " 2> NUL");
+#else
         sprintf( buffer, "rm -f  hcpy_0.tga %s", DEV_NULL2);
+#endif
         system (buffer);
         createHardcopy(0, NULL);
         /* read a cgx-command file which will be executed after the movie is created */
