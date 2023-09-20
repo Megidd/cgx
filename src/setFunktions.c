@@ -14197,7 +14197,11 @@ void pre_movie(char *string)
   }
   if (compareStrings(type, "clean")>0)
   {
+#ifdef WIN32
+    sprintf( buffer, "del /f \"_*.gif\" %s", " 2> NUL");
+#else
     sprintf( buffer, "rm -f _*.gif %s", DEV_NULL2);
+#endif
     system (buffer);
     gifNr=0;
   }
