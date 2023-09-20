@@ -199,11 +199,11 @@ int generateTetFromSet(int setNr, double teth, int eattr, int mesherFlag )
     if(mesherFlag==0)
     {
 #ifdef WIN32
-      system("del /f mesh.ng");
-      system("del /f test.vol");
-      system("del /f test.out");
-      system("del /f netgen.prof");
-      system("del /f nodnr.out elemnr.out");
+      system("del /f \"mesh.ng\"");
+      system("del /f \"test.vol\"");
+      system("del /f \"test.out\"");
+      system("del /f \"netgen.prof\"");
+      system("del /f \"nodnr.out\" \"elemnr.out\"");
 #else
       system("rm -rf mesh.ng");
       system("rm -rf test.vol");
@@ -215,12 +215,12 @@ int generateTetFromSet(int setNr, double teth, int eattr, int mesherFlag )
     else
     {
 #ifdef WIN32
-      system("del /f mesh.smesh");
-      system("del /f mesh.1.node");
-      system("del /f mesh.1.ele");
-      system("del /f mesh.1.face");
-      system("del /f mesh.1.edge");
-      system("del /f nodnr.out elemnr.out");
+      system("del /f \"mesh.smesh\"");
+      system("del /f \"mesh.1.node\"");
+      system("del /f \"mesh.1.ele\"");
+      system("del /f \"mesh.1.face\"");
+      system("del /f \"mesh.1.edge\"");
+      system("del /f \"nodnr.out\" \"elemnr.out\"");
 #else
       system("rm -rf mesh.smesh");
       system("rm -rf mesh.1.node");
