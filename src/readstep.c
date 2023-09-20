@@ -1629,7 +1629,7 @@ int readstep( char *datin, int flag )
 #endif
     system(buffer);
 #ifdef WIN32
-    sprintf(buffer,"del /f cgx_tmp.fbl");
+    sprintf(buffer,"del /f \"cgx_tmp.fbl\"");
 #else
     sprintf(buffer,"rm -f cgx_tmp.fbl");
 #endif
