@@ -17285,7 +17285,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
       }
       system (buffer);
       printf("%s\n",buffer);
+#ifdef WIN32
+      sprintf( buffer, "del /f \"cgx_*.ps\" %s"," > NUL");
+#else
       sprintf( buffer, "rm -f cgx_*.ps %s",DEV_NULL);
+#endif
       system (buffer);
       // TBD: if ( compareStrings(format, "ls")>0)
       if(inpformat) sprintf(buffer, "%s cgx.ps &", psviewer);
