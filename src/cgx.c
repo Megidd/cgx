@@ -885,7 +885,11 @@ void getTGAScreenShot(int nr)
 		(GLint)width_menu*19/20, (GLint)height_menu/10, nr);
     system (buffer);
     //printf("%s",buffer);
+#ifdef WIN32
+    sprintf( buffer, "del /f \"*__.tga\" %s", " > NUL");
+#else
     sprintf( buffer, "rm -f *__.tga %s",DEV_NULL);
+#endif
     system (buffer);
 }
 /* end tga-screen-shot */
