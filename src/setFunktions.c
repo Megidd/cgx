@@ -24706,7 +24706,11 @@ void senddata( char *setname, char *format, Summen *anz, Nodes *node, Elements *
     /* add the equations to the mesh-file */
     for(i=0; i<sum_equSets; i++)
     {
+#ifdef WIN32
+      sprintf(buffer,"type \"%s.equ\" >> \"%s\"", set[depSet[i]].name, prognam);
+#else
       sprintf(buffer,"cat %s.equ >> %s", set[depSet[i]].name, prognam);
+#endif
       system(buffer);    
       sprintf(buffer,"rm -f %s.equ", set[depSet[i]].name);
       system(buffer);
