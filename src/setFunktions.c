@@ -17302,7 +17302,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
     }
     else if(compareStrings(&string[na+1], "clean")>0)
     {
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_*\" %s"," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_* %s",DEV_NULL);
+#endif
       system (buffer);
       psNr=tgaNr=gifNr=pngNr=0;
     }           
