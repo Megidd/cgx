@@ -17270,7 +17270,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
         sprintf( buffer, "gs -dNOPAUSE -dBATCH -sDEVICE=ps2write -sOutputFile=cgx_%d.ps tmp_%d.ps", nr, nr);
         system (buffer);
         printf("%s\n",buffer);
+#ifdef WIN32
+        sprintf( buffer, "del /f \"tmp*.ps\" %s"," > NUL");
+#else
         sprintf( buffer, "rm -f tmp*.ps %s",DEV_NULL);
+#endif
         system (buffer);
         nr++;
       }while(j==6);
