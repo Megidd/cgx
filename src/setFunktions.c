@@ -24712,7 +24712,11 @@ void senddata( char *setname, char *format, Summen *anz, Nodes *node, Elements *
       sprintf(buffer,"cat %s.equ >> %s", set[depSet[i]].name, prognam);
 #endif
       system(buffer);    
+#ifdef WIN32
+      sprintf(buffer,"del /f \"%s.equ\"", set[depSet[i]].name);
+#else
       sprintf(buffer,"rm -f %s.equ", set[depSet[i]].name);
+#endif
       system(buffer);
       sprintf(buffer,"-%s", set[depSet[i]].name);
       rnam(depSet[i], buffer);
