@@ -1414,7 +1414,11 @@ void MouseState( int button, int state, int x, int y )
       movieFrames=0;
       movieFlag=0;
       printf("movie stopped, please wait for ready (might take a while)\n");
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_0.tga\" %s"," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_0.tga %s",DEV_NULL);
+#endif
       system (buffer);
       createHardcopy(0, NULL);
       printf("movie.gif ready\n");
