@@ -968,3 +968,7 @@ int calcTrimLoops(int nurbsnr, int nr);
 int check_lineLoop(double *cg, int np, double *pnt_u, double *pnt_v, int e, int *tri);
 void mergeElem( int setNr, int delFlag );
 void DrawCommandLine(char *string, int curpos);
+
+/* platform.c */
+int systemcall(char *buffer);
+void move_file(const char* src, const char* dest)
