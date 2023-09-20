@@ -14166,7 +14166,11 @@ void pre_movie(char *string)
     printf("optionally reset the counter and delete the single frames with 'movi clean'\n");
     printf("you might use the program 'realplay' or 'firefox' to play the movie.gif file\n");
     movieFlag=0;
+#ifdef WIN32
+    sprintf( buffer, "del /f  \"hcpy_0.tga\" %s", " 2> NUL");
+#else
     sprintf( buffer, "rm -f  hcpy_0.tga %s", DEV_NULL2);
+#endif
     system (buffer);
   }
   if (compareStrings(type, "frames")>0)
