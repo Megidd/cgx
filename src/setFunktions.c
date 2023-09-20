@@ -17194,7 +17194,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
     else if(compareStrings(name, "png")>0) createHardcopy(5,sbuf);
     else if(compareStrings(name, "clean")>0)
     {
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_*.*\" %s", " 2> NUL");
+#else
       sprintf( buffer, "rm -f hcpy_*.* %s", DEV_NULL2);
+#endif
       system (buffer);
       psNr=tgaNr=gifNr=pngNr=0;
     }
