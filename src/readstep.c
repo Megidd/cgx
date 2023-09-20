@@ -1616,7 +1616,11 @@ int readstep( char *datin, int flag )
     fprintf(handlefbl,"plot l %s\ntext displayed shape: %s\n", set[assembly_set].name, set[assembly_set].name);
     fclose(handlefbl);
 
+#ifdef WIN32
+    sprintf(buffer,"type cgx_tmp.fbl >> cgx_tmp2.fbl");
+#else
     sprintf(buffer,"cat cgx_tmp.fbl >> cgx_tmp2.fbl");
+#endif
     system(buffer);
     sprintf(buffer,"mv -f cgx_tmp2.fbl %s.fbl", datin);
     system(buffer);
