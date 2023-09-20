@@ -1056,7 +1056,11 @@ void createHardcopy( int selection, char *filePtr )
       getTGAScreenShot(pngNr);
       sprintf( buffer, "convert hcpy_%d.tga %s", pngNr, fileName);
       system (buffer);
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_%d.tga\" %s",pngNr," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_%d.tga %s",pngNr,DEV_NULL);
+#endif
       system (buffer);
       sprintf( parameter[0], "%s", fileName);
       sprintf( parameter[1], "%d", pngNr);
