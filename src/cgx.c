@@ -1612,7 +1612,11 @@ void markHardcopy( int selection )
     movieFlag=1;
     printf(" start recording movie\n");
     printf("   stop recording with right mouse key while in menu area of the window\n");
+#ifdef WIN32
+    sprintf( buffer, "del /f \"_*.gif\" %s"," > NUL");
+#else
     sprintf( buffer, "rm -f _*.gif %s",DEV_NULL);
+#endif
     system (buffer);
     sprintf( buffer, "rm -f movie.gif %s",DEV_NULL);
     system (buffer);
