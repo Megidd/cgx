@@ -970,7 +970,7 @@ void createHardcopy( int selection, char *filePtr )
       system (buffer);
       printf("%s\n", buffer);
 #ifdef WIN32
-      sprintf( buffer, "del /f \"hcpy_%d.tga %s\"",psNr," > NUL");
+      sprintf( buffer, "del /f \"hcpy_%d.tga\" %s",psNr," > NUL");
 #else
       sprintf( buffer, "rm -f hcpy_%d.tga %s",psNr,DEV_NULL);
 #endif
