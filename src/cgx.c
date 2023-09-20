@@ -885,7 +885,11 @@ void getTGAScreenShot(int nr)
 		(GLint)width_menu*19/20, (GLint)height_menu/10, nr);
     system (buffer);
     //printf("%s",buffer);
+#ifdef WIN32
+    sprintf( buffer, "del /f \"*__.tga\" %s", " > NUL");
+#else
     sprintf( buffer, "rm -f *__.tga %s",DEV_NULL);
+#endif
     system (buffer);
 }
 /* end tga-screen-shot */
@@ -965,7 +969,11 @@ void createHardcopy( int selection, char *filePtr )
       sprintf( buffer, "convert hcpy_%d.tga -page A4 %s", psNr, fileName);
       system (buffer);
       printf("%s\n", buffer);
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_%d.tga\" %s",psNr," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_%d.tga %s",psNr,DEV_NULL);
+#endif
       system (buffer);
       sprintf( parameter[0], "%s", fileName);
       sprintf( parameter[1], "%d", psNr);
@@ -979,7 +987,11 @@ void createHardcopy( int selection, char *filePtr )
       if(filePtr!=NULL)
       {
         sprintf(fileName,"%s.tga",filePtr);
+#ifdef WIN32
+        sprintf( buffer, "move /y \"hcpy_%d.tga\" \"%s\"", tgaNr, fileName);
+#else
         sprintf( buffer, "mv -f hcpy_%d.tga %s", tgaNr, fileName);
+#endif
         system (buffer);
       }
       else sprintf(fileName,"hcpy_%d.tga",tgaNr);
@@ -1003,7 +1015,11 @@ void createHardcopy( int selection, char *filePtr )
         animList=0;
         movieFrames=0;
         movieFlag=0;
+#ifdef WIN32
+        sprintf( buffer, "del /f  \"hcpy_0.tga\" %s", " 2> NUL");
+#else
         sprintf( buffer, "rm -f  hcpy_0.tga %s", DEV_NULL2);
+#endif
         system (buffer);
         createHardcopy(0, NULL);
         /* read a cgx-command file which will be executed after the movie is created */
@@ -1021,7 +1037,11 @@ void createHardcopy( int selection, char *filePtr )
       getTGAScreenShot(gifNr);
       sprintf( buffer, "convert hcpy_%d.tga %s", gifNr, fileName);
       system (buffer);
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_%d.tga\" %s",gifNr," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_%d.tga %s",gifNr,DEV_NULL);
+#endif
       system (buffer);
       sprintf( parameter[0], "%s", fileName);
       sprintf( parameter[1], "%d", gifNr);
@@ -1036,7 +1056,11 @@ void createHardcopy( int selection, char *filePtr )
       getTGAScreenShot(pngNr);
       sprintf( buffer, "convert hcpy_%d.tga %s", pngNr, fileName);
       system (buffer);
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_%d.tga\" %s",pngNr," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_%d.tga %s",pngNr,DEV_NULL);
+#endif
       system (buffer);
       sprintf( parameter[0], "%s", fileName);
       sprintf( parameter[1], "%d", pngNr);
@@ -1390,7 +1414,11 @@ void MouseState( int button, int state, int x, int y )
       movieFrames=0;
       movieFlag=0;
       printf("movie stopped, please wait for ready (might take a while)\n");
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_0.tga\" %s"," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_0.tga %s",DEV_NULL);
+#endif
       system (buffer);
       createHardcopy(0, NULL);
       printf("movie.gif ready\n");
@@ -1584,9 +1612,17 @@ void markHardcopy( int selection )
     movieFlag=1;
     printf(" start recording movie\n");
     printf("   stop recording with right mouse key while in menu area of the window\n");
+#ifdef WIN32
+    sprintf( buffer, "del /f \"_*.gif\" %s"," > NUL");
+#else
     sprintf( buffer, "rm -f _*.gif %s",DEV_NULL);
+#endif
     system (buffer);
+#ifdef WIN32
+    sprintf( buffer, "del /f \"movie.gif\" %s"," > NUL");
+#else
     sprintf( buffer, "rm -f movie.gif %s",DEV_NULL);
+#endif
     system (buffer);
     stopFlag=0;
   }

@@ -1466,10 +1466,18 @@ void make_setName(Step_Object *step_object, int indx)
     /* move the parts to directories */
     if(( splitFlag)&&(set[setNr].etyp==1))
     {
+#ifdef WIN32
+      sprintf(buffer, "mkdir \"%s\"", name);
+#else
       sprintf(buffer, "mkdir -p %s", name);
+#endif
       printf("%s\n",buffer);
       system(buffer);
+#ifdef WIN32
+      sprintf(buffer, "move /y \"%s.fbd\" \"%s\\%s.fbd\"", &set[setNr].name[1], name, &set[setNr].name[1]);
+#else
       sprintf(buffer, "mv -f %s.fbd %s/%s.fbd", &set[setNr].name[1], name, &set[setNr].name[1]);
+#endif
       printf("%s\n",buffer);
       system(buffer);
 
@@ -1608,11 +1616,23 @@ int readstep( char *datin, int flag )
     fprintf(handlefbl,"plot l %s\ntext displayed shape: %s\n", set[assembly_set].name, set[assembly_set].name);
     fclose(handlefbl);
 
+#ifdef WIN32
+    sprintf(buffer,"type \"cgx_tmp.fbl\" >> \"cgx_tmp2.fbl\"");
+#else
     sprintf(buffer,"cat cgx_tmp.fbl >> cgx_tmp2.fbl");
+#endif
     system(buffer);
+#ifdef WIN32
+    sprintf(buffer,"move /y \"cgx_tmp2.fbl\" \"%s.fbl\"", datin);
+#else
     sprintf(buffer,"mv -f cgx_tmp2.fbl %s.fbl", datin);
+#endif
     system(buffer);
+#ifdef WIN32
+    sprintf(buffer,"del /f \"cgx_tmp.fbl\"");
+#else
     sprintf(buffer,"rm -f cgx_tmp.fbl");
+#endif
     system(buffer);
   }
 

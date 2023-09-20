@@ -14166,12 +14166,20 @@ void pre_movie(char *string)
     printf("optionally reset the counter and delete the single frames with 'movi clean'\n");
     printf("you might use the program 'realplay' or 'firefox' to play the movie.gif file\n");
     movieFlag=0;
+#ifdef WIN32
+    sprintf( buffer, "del /f  \"hcpy_0.tga\" %s", " 2> NUL");
+#else
     sprintf( buffer, "rm -f  hcpy_0.tga %s", DEV_NULL2);
+#endif
     system (buffer);
   }
   if (compareStrings(type, "frames")>0)
   {
+#ifdef WIN32
+    sprintf( buffer, "del /f \"_*.gif\" %s", " 2> NUL");
+#else
     sprintf( buffer, "rm -f _*.gif %s", DEV_NULL2);
+#endif
     system (buffer);
     gifNr=0;
     movieFlag=1;
@@ -14189,7 +14197,11 @@ void pre_movie(char *string)
   }
   if (compareStrings(type, "clean")>0)
   {
+#ifdef WIN32
+    sprintf( buffer, "del /f \"_*.gif\" %s", " 2> NUL");
+#else
     sprintf( buffer, "rm -f _*.gif %s", DEV_NULL2);
+#endif
     system (buffer);
     gifNr=0;
   }
@@ -14203,7 +14215,11 @@ void pre_movie(char *string)
       if(length==4)
       {
         printf("make movie from %s and pic:%d to %d, wait for ready\n", movie, (int)val1,(int)val2);
+#ifdef WIN32
+        sprintf( buffer, "copy /y \"%s\" \"movie.gif\" %s", movie, " 2> NUL");
+#else
         sprintf( buffer, "cp %s movie.gif %s", movie, DEV_NULL2);
+#endif
         system (buffer);
       }
       else
@@ -14249,7 +14265,12 @@ void pre_movie(char *string)
         else sprintf( buffer, "convert -loop %d -delay %d movie.gif %s movie.gif %s", loops, delay, name,DEV_NULL2);
         system (buffer);
       }
+#ifdef WIN32
+      // The `/f` option is preferred. Right? Unix doesn't have `-f`. Why?
+      sprintf( buffer, "del /f \"__*.gif\" %s", " 2> NUL");
+#else
       sprintf( buffer, "rm __*.gif %s", DEV_NULL2);
+#endif
       system (buffer);
       printf("\nready\n");
       printf("\nyou might use the program 'realplay' or 'firefox' to play the movie.gif file\n\n");
@@ -17174,7 +17195,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
     else if(compareStrings(name, "png")>0) createHardcopy(5,sbuf);
     else if(compareStrings(name, "clean")>0)
     {
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_*.*\" %s", " 2> NUL");
+#else
       sprintf( buffer, "rm -f hcpy_*.* %s", DEV_NULL2);
+#endif
       system (buffer);
       psNr=tgaNr=gifNr=pngNr=0;
     }
@@ -17246,7 +17271,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
         sprintf( buffer, "gs -dNOPAUSE -dBATCH -sDEVICE=ps2write -sOutputFile=cgx_%d.ps tmp_%d.ps", nr, nr);
         system (buffer);
         printf("%s\n",buffer);
+#ifdef WIN32
+        sprintf( buffer, "del /f \"tmp*.ps\" %s"," > NUL");
+#else
         sprintf( buffer, "rm -f tmp*.ps %s",DEV_NULL);
+#endif
         system (buffer);
         nr++;
       }while(j==6);
@@ -17257,7 +17286,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
       }
       system (buffer);
       printf("%s\n",buffer);
+#ifdef WIN32
+      sprintf( buffer, "del /f \"cgx_*.ps\" %s"," > NUL");
+#else
       sprintf( buffer, "rm -f cgx_*.ps %s",DEV_NULL);
+#endif
       system (buffer);
       // TBD: if ( compareStrings(format, "ls")>0)
       if(inpformat) sprintf(buffer, "%s cgx.ps &", psviewer);
@@ -17270,7 +17303,11 @@ int commandoInterpreter( char *type, char *string, int na, int nb, FILE *handle1
     }
     else if(compareStrings(&string[na+1], "clean")>0)
     {
+#ifdef WIN32
+      sprintf( buffer, "del /f \"hcpy_*\" %s"," > NUL");
+#else
       sprintf( buffer, "rm -f hcpy_* %s",DEV_NULL);
+#endif
       system (buffer);
       psNr=tgaNr=gifNr=pngNr=0;
     }           
@@ -24670,9 +24707,17 @@ void senddata( char *setname, char *format, Summen *anz, Nodes *node, Elements *
     /* add the equations to the mesh-file */
     for(i=0; i<sum_equSets; i++)
     {
+#ifdef WIN32
+      sprintf(buffer,"type \"%s.equ\" >> \"%s\"", set[depSet[i]].name, prognam);
+#else
       sprintf(buffer,"cat %s.equ >> %s", set[depSet[i]].name, prognam);
+#endif
       system(buffer);    
+#ifdef WIN32
+      sprintf(buffer,"del /f \"%s.equ\"", set[depSet[i]].name);
+#else
       sprintf(buffer,"rm -f %s.equ", set[depSet[i]].name);
+#endif
       system(buffer);
       sprintf(buffer,"-%s", set[depSet[i]].name);
       rnam(depSet[i], buffer);
