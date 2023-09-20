@@ -14216,7 +14216,7 @@ void pre_movie(char *string)
       {
         printf("make movie from %s and pic:%d to %d, wait for ready\n", movie, (int)val1,(int)val2);
 #ifdef WIN32
-        sprintf( buffer, "copy \"%s\" \"movie.gif\" %s", movie, " 2> NUL");
+        sprintf( buffer, "copy /y \"%s\" \"movie.gif\" %s", movie, " 2> NUL");
 #else
         sprintf( buffer, "cp %s movie.gif %s", movie, DEV_NULL2);
 #endif
