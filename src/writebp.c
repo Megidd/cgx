@@ -124,7 +124,11 @@ int writebp(char *setname, Summen *anz, SumGeo *anzGeo, Points *pnt, Sets *set )
   fclose(handle2);
 
   /* create an empty  hdr file for prg tomeshvl */
+#ifdef WIN32
+  system("type NUL > \"hdr\"");
+#else
   system("touch hdr");
+#endif
   return (1);
 }
 
