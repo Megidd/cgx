@@ -1628,7 +1628,11 @@ int readstep( char *datin, int flag )
     sprintf(buffer,"mv -f cgx_tmp2.fbl %s.fbl", datin);
 #endif
     system(buffer);
+#ifdef WIN32
+    sprintf(buffer,"del /f cgx_tmp.fbl");
+#else
     sprintf(buffer,"rm -f cgx_tmp.fbl");
+#endif
     system(buffer);
   }
 
