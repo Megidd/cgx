@@ -969,11 +969,11 @@ void createHardcopy( int selection, char *filePtr )
       sprintf( buffer, "convert hcpy_%d.tga -page A4 %s", psNr, fileName);
       system (buffer);
       printf("%s\n", buffer);
-      #ifdef WIN32
+#ifdef WIN32
       sprintf( buffer, "del /f \"hcpy_%d.tga %s\"",psNr," > NUL");
-      #else
+#else
       sprintf( buffer, "rm -f hcpy_%d.tga %s",psNr,DEV_NULL);
-      #endif
+#endif
       system (buffer);
       sprintf( parameter[0], "%s", fileName);
       sprintf( parameter[1], "%d", psNr);
