@@ -987,7 +987,11 @@ void createHardcopy( int selection, char *filePtr )
       if(filePtr!=NULL)
       {
         sprintf(fileName,"%s.tga",filePtr);
+#ifdef WIN32
+        sprintf( buffer, "move /y \"hcpy_%d.tga\" \"%s\"", tgaNr, fileName);
+#else
         sprintf( buffer, "mv -f hcpy_%d.tga %s", tgaNr, fileName);
+#endif
         system (buffer);
       }
       else sprintf(fileName,"hcpy_%d.tga",tgaNr);
