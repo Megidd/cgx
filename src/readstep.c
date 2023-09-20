@@ -1473,7 +1473,11 @@ void make_setName(Step_Object *step_object, int indx)
 #endif
       printf("%s\n",buffer);
       system(buffer);
+#ifdef WIN32
+      sprintf(buffer, "move /y \"%s.fbd\" \"%s\\%s.fbd\"", &set[setNr].name[1], name, &set[setNr].name[1]);
+#else
       sprintf(buffer, "mv -f %s.fbd %s/%s.fbd", &set[setNr].name[1], name, &set[setNr].name[1]);
+#endif
       printf("%s\n",buffer);
       system(buffer);
 
