@@ -1466,7 +1466,11 @@ void make_setName(Step_Object *step_object, int indx)
     /* move the parts to directories */
     if(( splitFlag)&&(set[setNr].etyp==1))
     {
+#ifdef WIN32
+      sprintf(buffer, "mkdir \"%s\"", name);
+#else
       sprintf(buffer, "mkdir -p %s", name);
+#endif
       printf("%s\n",buffer);
       system(buffer);
       sprintf(buffer, "mv -f %s.fbd %s/%s.fbd", &set[setNr].name[1], name, &set[setNr].name[1]);
