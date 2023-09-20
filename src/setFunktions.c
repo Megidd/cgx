@@ -14266,7 +14266,7 @@ void pre_movie(char *string)
         system (buffer);
       }
 #ifdef WIN32
-      sprintf( buffer, "del \"__*.gif\" %s", " 2> NUL");
+      sprintf( buffer, "del /f \"__*.gif\" %s", " 2> NUL");
 #else
       sprintf( buffer, "rm __*.gif %s", DEV_NULL2);
 #endif
