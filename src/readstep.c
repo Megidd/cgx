@@ -1622,7 +1622,11 @@ int readstep( char *datin, int flag )
     sprintf(buffer,"cat cgx_tmp.fbl >> cgx_tmp2.fbl");
 #endif
     system(buffer);
+#ifdef WIN32
+    sprintf(buffer,"move /y \"cgx_tmp2.fbl\" \"%s.fbl\"", datin);
+#else
     sprintf(buffer,"mv -f cgx_tmp2.fbl %s.fbl", datin);
+#endif
     system(buffer);
     sprintf(buffer,"rm -f cgx_tmp.fbl");
     system(buffer);
