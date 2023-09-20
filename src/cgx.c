@@ -1618,7 +1618,11 @@ void markHardcopy( int selection )
     sprintf( buffer, "rm -f _*.gif %s",DEV_NULL);
 #endif
     system (buffer);
+#ifdef WIN32
+    sprintf( buffer, "del /f \"movie.gif\" %s"," > NUL");
+#else
     sprintf( buffer, "rm -f movie.gif %s",DEV_NULL);
+#endif
     system (buffer);
     stopFlag=0;
   }
